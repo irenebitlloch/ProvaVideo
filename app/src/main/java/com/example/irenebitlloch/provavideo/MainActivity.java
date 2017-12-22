@@ -3,6 +3,7 @@ package com.example.irenebitlloch.provavideo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import org.jcodec.common.model.Rational;
@@ -26,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+            Encoder();
 
+    }
+
+    private void Encoder() {
         SeekableByteChannel out = null;
         try {
             out = NIOUtils.writableFileChannel("/tmp/output.mp4");
@@ -47,10 +53,17 @@ public class MainActivity extends AppCompatActivity {
         } finally {
             NIOUtils.closeQuietly(out);
         }
-
     }
+    private class Encoder extends AsyncTask<String, Void, String> {
 
-    private Integer[] Fotos = {
+        @Override
+        protected String doInBackground(String... surls) {
+            String cont = WebFetcher.getUrl(surls[0]);
+            return cont;
+        }
+
+
+        private Integer[] Fotos = {
       R.drawable.baixa, R.drawable.baixa1,
             R.drawable.baixa, R.drawable.baixa1,
             R.drawable.baixa, R.drawable.baixa1,
